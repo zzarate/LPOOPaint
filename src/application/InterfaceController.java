@@ -1,15 +1,18 @@
 package application;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.EventHandler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 
 public class InterfaceController implements Initializable {
@@ -40,7 +43,11 @@ public class InterfaceController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		final GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+		
 		desenhoLapis = canvas.getGraphicsContext2D();
+		desenharLinha = canvas.getGraphicsContext2D();
 
 		canvas.setOnMouseDragged(e -> {
 			double tamanho = Double.parseDouble(tamanhoSelect.getText());
@@ -52,8 +59,40 @@ public class InterfaceController implements Initializable {
 				desenhoLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			}
 		});
+		
+		canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle (MouseEvent event) {
+				graphicsContext.beginPath();
+				graphicsContext.moveTo(event.getX(), event.getY());
+				graphicsContext.stroke();
+				
+			}
+		});
+		
+		canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle (MouseEvent event) {
+				graphicsContext.lineTo(event.getX(), event.getY());
+				graphicsContext.stroke();
+			}
+		});
+		
+		canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+			
+			@Override
+			public void handle (MouseEvent event) {
+				
+			}
+		});
+		
+		//Desenhar Linha
+		
 	}
-
+	
+	
 	
 
 	@FXML
@@ -65,6 +104,7 @@ public class InterfaceController implements Initializable {
 	public void linhaSelect (ActionEvent e) {
 		linhaSelect = true;
 	}
+	
 
 	// Metodo para salvar
 	public void salvar() {
@@ -102,19 +142,6 @@ public class InterfaceController implements Initializable {
 	public void borrachaSelect() {
 
 	}
-	/*
-	public void borrachaSelect() {
-
-	}
-	
-	public void borrachaSelect() {
-
-	}
-	
-	public void borrachaSelect() {
-
-	}
-	*/
 
 	// Metodo para sair da aplicação
 	public void exit() {
