@@ -44,8 +44,6 @@ public class InterfaceController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		final GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-		
 		desenhoLapis = canvas.getGraphicsContext2D();
 		desenharLinha = canvas.getGraphicsContext2D();
 
@@ -59,36 +57,6 @@ public class InterfaceController implements Initializable {
 				desenhoLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			}
 		});
-		
-		canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle (MouseEvent event) {
-				graphicsContext.beginPath();
-				graphicsContext.moveTo(event.getX(), event.getY());
-				graphicsContext.stroke();
-				
-			}
-		});
-		
-		canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle (MouseEvent event) {
-				graphicsContext.lineTo(event.getX(), event.getY());
-				graphicsContext.stroke();
-			}
-		});
-		
-		canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-			
-			@Override
-			public void handle (MouseEvent event) {
-				
-			}
-		});
-		
-		//Desenhar Linha
 		
 	}
 	
