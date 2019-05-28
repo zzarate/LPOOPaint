@@ -85,6 +85,11 @@ public class InterfaceController implements Initializable {
 						dRetangulo.setStroke(escolheCor.getValue());
 						dRetangulo.strokeRect(x, y, tamanho, tamanho);
 						dRetangulo.fillRect(x, y, tamanho, tamanho);*/
+						
+						dRetangulo.setStroke(escolheCor.getValue());
+						dRetangulo.setFill(escolheCor.getValue());
+						ret.setX(e.getX());
+						ret.setY(e.getY());
 					} else {
 						if (linhaSelect) {
 							linha.setStartX(e.getX());
@@ -135,9 +140,14 @@ public class InterfaceController implements Initializable {
 				dLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			} else {
 				if (borrachaSelect) {
+					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
+					double x = e.getX() - tamanho/2;
+					double y = e.getY() - tamanho/2;
+					apagar.clearRect(x, y, tamanho, tamanho);
+					/*
 					apagar.lineTo(e.getX(), e.getY());
 					apagar.stroke();
-					apagar.closePath();
+					apagar.closePath();*/
 				} else {
 					if (retanguloSelect) {
 						/* Q U A D R A D O
@@ -148,6 +158,20 @@ public class InterfaceController implements Initializable {
 						dRetangulo.setStroke(escolheCor.getValue());
 						dRetangulo.strokeRect(x, y, tamanho, tamanho);
 						dRetangulo.fillRect(x, y, tamanho, tamanho); */
+						
+						ret.setWidth(Math.abs((e.getX() - ret.getX())));
+						ret.setHeight(Math.abs((e.getSceneY() - ret.getY())));
+						
+						if (ret.getX() > e.getY()) {
+							ret.setX(e.getX());
+						}
+						
+						if (ret.getY() > e.getY()) {
+							ret.setY(e.getY());
+						}
+						
+						dRetangulo.strokeRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
+						dRetangulo.fillRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
 					} else {
 						if (linhaSelect) {
 							linha.setEndX(e.getX());
