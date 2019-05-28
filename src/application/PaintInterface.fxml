@@ -6,9 +6,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -53,17 +53,23 @@
                   <ToolBar prefHeight="57.0" prefWidth="1280.0">
                      <items>
                         <Button mnemonicParsing="false" onAction="#desfazerSelect" text="Desfazer" />
-                        <Button mnemonicParsing="false" onAction="#refazerSelect" text="Refazer" /> 	
+                        <Button mnemonicParsing="false" onAction="#refazerSelect" text="Refazer" />
+                        <Separator orientation="VERTICAL" prefHeight="45.0" /> 	
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tamanho" />
                         <TextField fx:id="tamanhoSelect" prefHeight="25.0" prefWidth="40.0" text="30" />
-                        <ColorPicker fx:id="escolheCor" />	
-                        <Button mnemonicParsing="false" onAction="#preencheSelect" text="Preencher" />
-                        <Button mnemonicParsing="false" onAction="#quadradoSelect" text="Quadrado" />
+                        <ColorPicker fx:id="escolheCor" />
+                        <Separator orientation="VERTICAL" prefHeight="45.0" />
+                        <Button mnemonicParsing="false" onAction="#retanguloSelect" text="Retangulo" />
                         <Button mnemonicParsing="false" onAction="#circsSelect" text="Circulo" />
                         <Button mnemonicParsing="false" onAction="#linhaSelect" text="Linha" />
                         <Button mnemonicParsing="false" onAction="#lapisSelect" text="Lapis" />
+                        <Separator orientation="VERTICAL" prefHeight="45.0" />	
+                        <Button mnemonicParsing="false" onAction="#preencheSelect" text="Preencher" />
                         <Button mnemonicParsing="false" onAction="#textSelect" text="Texto" />
+                        <Separator orientation="VERTICAL" prefHeight="45.0" />
                         <Button mnemonicParsing="false" onAction="#borrachaSelect" text="Borracha" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tamanho" />
+                        <TextField fx:id="tamanhoBorracha" prefHeight="25.0" prefWidth="40.0" text="25" />
                      </items>
                   </ToolBar>
                </children>

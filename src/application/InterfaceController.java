@@ -22,7 +22,7 @@ public class InterfaceController implements Initializable {
 	boolean desfazerSelect = false;
 	boolean refazerSelect = false;
 	boolean preencheSelect = false;
-	boolean quadradoSelect = false;
+	boolean retanguloSelect = false;
 	boolean circSelect = false;
 	boolean linhaSelect = false;
 	boolean textSelect = false;
@@ -31,7 +31,7 @@ public class InterfaceController implements Initializable {
 	GraphicsContext dLapis;
 	GraphicsContext dLinha;
 	GraphicsContext apagar;
-	GraphicsContext dQuadrado;
+	GraphicsContext dRetangulo;
 	GraphicsContext dCirculo;
 
 	@FXML
@@ -39,6 +39,9 @@ public class InterfaceController implements Initializable {
 
 	@FXML
 	private TextField tamanhoSelect;
+	
+	@FXML
+	private TextField tamanhoBorracha;
 
 	@FXML
 	private Canvas canvas;
@@ -48,7 +51,7 @@ public class InterfaceController implements Initializable {
 
 		dLapis = canvas.getGraphicsContext2D();
 		apagar = canvas.getGraphicsContext2D();
-		dQuadrado = canvas.getGraphicsContext2D();
+		dRetangulo = canvas.getGraphicsContext2D();
 		dCirculo = canvas.getGraphicsContext2D();
 		dLinha = canvas.getGraphicsContext2D();
 
@@ -68,23 +71,28 @@ public class InterfaceController implements Initializable {
 				dLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			} else {
 				if (borrachaSelect) {
-					double tamanho = Double.parseDouble(tamanhoSelect.getText());
+					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
 					double x = e.getX() - tamanho/2;
 					double y = e.getY() - tamanho/2;
 					apagar.clearRect(x, y, tamanho, tamanho);
 				} else {
-					if (quadradoSelect) {/*
-						dQuadrado.setStroke(escolheCor.getValue());
-						ret.setX(e.getX());
-						ret.setY(e.getY());*/
+					if (retanguloSelect) {
+						/*  Q u a d r a d o
+						double tamanho = Double.parseDouble(tamanhoSelect.getText());
+						double x = e.getX() - tamanho / 2;
+						double y = e.getY() - tamanho / 2;
+						dRetangulo.setFill(escolheCor.getValue());
+						dRetangulo.setStroke(escolheCor.getValue());
+						dRetangulo.strokeRect(x, y, tamanho, tamanho);
+						dRetangulo.fillRect(x, y, tamanho, tamanho);*/
 					} else {
 						if (linhaSelect) {
-							dLinha.setFill(escolheCor.getValue());
 							linha.setStartX(e.getX());
 							linha.setStartY(e.getY());
 						} else {
 							if (circSelect) {
 								dCirculo.setFill(escolheCor.getValue());
+								dCirculo.setStroke(escolheCor.getValue());
 								circ.setCenterX(e.getX());
 								circ.setCenterY(e.getY());
 							}
@@ -106,7 +114,7 @@ public class InterfaceController implements Initializable {
 				dLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			} else {
 				if (borrachaSelect) {
-					double tamanho = Double.parseDouble(tamanhoSelect.getText());
+					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
 					double x = e.getX() - tamanho/2;
 					double y = e.getY() - tamanho/2;
 					apagar.clearRect(x, y, tamanho, tamanho);
@@ -131,27 +139,36 @@ public class InterfaceController implements Initializable {
 					apagar.stroke();
 					apagar.closePath();
 				} else {
-					if (quadradoSelect) {
+					if (retanguloSelect) {
+						/* Q U A D R A D O
 						double tamanho = Double.parseDouble(tamanhoSelect.getText());
 						double x = e.getX() - tamanho / 2;
 						double y = e.getY() - tamanho / 2;
-						dLapis.setFill(escolheCor.getValue());
-						dLapis.setStroke(escolheCor.getValue());
-						dLapis.strokeRect(x, y, tamanho, tamanho);
-						
-						/*
-						ret.setWidth(Math.abs((e.getX() - e.getY())));
-						ret.setHeight(Math.abs((e.getSceneY() - e.getX())));
-						
-						if (ret.getX() > e.getY()) {
-							ret.setX(e.getX());
+						dRetangulo.setFill(escolheCor.getValue());
+						dRetangulo.setStroke(escolheCor.getValue());
+						dRetangulo.strokeRect(x, y, tamanho, tamanho);
+						dRetangulo.fillRect(x, y, tamanho, tamanho); */
+					} else {
+						if (linhaSelect) {
+							linha.setEndX(e.getX());
+							linha.setEndY(e.getY());
+							
+							dLinha.strokeLine(linha.getStartX(), linha.getStartY(), linha.getEndX(), linha.getEndY());
+							
+						} else {
+							if (circSelect) {
+								circ.setRadius((Math.abs(e.getX() - circ.getCenterX()) + Math.abs(e.getY() - circ.getCenterY())) /2);
+								if (circ.getCenterX() > e.getX()) {
+									circ.setCenterX(e.getX());
+								}
+								if (circ.getCenterY() > e.getY()) {
+									circ.setCenterY(e.getY());
+								}
+								
+								dCirculo.fillOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(), circ.getRadius());
+								dCirculo.strokeOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(), circ.getRadius());
+							}
 						}
-						
-						if (ret.getY() > e.getY()) {
-							ret.setY(e.getY());
-						}
-						
-						dQuadrado.strokeRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight()); */
 					}
 				}
 			}
@@ -178,8 +195,8 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	public void quadradoSelect(ActionEvent e) {
-		quadradoSelect = true;
+	public void retanguloSelect(ActionEvent e) {
+		retanguloSelect = true;
 	}
 
 	@FXML
