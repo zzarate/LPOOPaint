@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -54,8 +55,8 @@
                         <Button mnemonicParsing="false" onAction="#desfazerSelect" text="Desfazer" />
                         <Button mnemonicParsing="false" onAction="#refazerSelect" text="Refazer" /> 	
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tamanho" />
-                        <TextField fx:id="tamanhoSelect" prefHeight="25.0" prefWidth="40.0" text="18" />
-                        <ColorPicker fx:id="escolheCor" />
+                        <TextField fx:id="tamanhoSelect" prefHeight="25.0" prefWidth="40.0" text="30" />
+                        <ColorPicker fx:id="escolheCor" />	
                         <Button mnemonicParsing="false" onAction="#preencheSelect" text="Preencher" />
                         <Button mnemonicParsing="false" onAction="#quadradoSelect" text="Quadrado" />
                         <Button mnemonicParsing="false" onAction="#circsSelect" text="Circulo" />
