@@ -9,7 +9,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -39,7 +38,7 @@ public class InterfaceController implements Initializable {
 
 	@FXML
 	private TextField tamanhoSelect;
-	
+
 	@FXML
 	private TextField tamanhoBorracha;
 
@@ -72,20 +71,11 @@ public class InterfaceController implements Initializable {
 			} else {
 				if (borrachaSelect) {
 					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
-					double x = e.getX() - tamanho/2;
-					double y = e.getY() - tamanho/2;
+					double x = e.getX() - tamanho / 2;
+					double y = e.getY() - tamanho / 2;
 					apagar.clearRect(x, y, tamanho, tamanho);
 				} else {
 					if (retanguloSelect) {
-						/*  Q u a d r a d o
-						double tamanho = Double.parseDouble(tamanhoSelect.getText());
-						double x = e.getX() - tamanho / 2;
-						double y = e.getY() - tamanho / 2;
-						dRetangulo.setFill(escolheCor.getValue());
-						dRetangulo.setStroke(escolheCor.getValue());
-						dRetangulo.strokeRect(x, y, tamanho, tamanho);
-						dRetangulo.fillRect(x, y, tamanho, tamanho);*/
-						
 						dRetangulo.setStroke(escolheCor.getValue());
 						dRetangulo.setFill(escolheCor.getValue());
 						ret.setX(e.getX());
@@ -100,6 +90,9 @@ public class InterfaceController implements Initializable {
 								dCirculo.setStroke(escolheCor.getValue());
 								circ.setCenterX(e.getX());
 								circ.setCenterY(e.getY());
+							} else {
+								if (textSelect) {
+								}
 							}
 						}
 					}
@@ -120,8 +113,8 @@ public class InterfaceController implements Initializable {
 			} else {
 				if (borrachaSelect) {
 					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
-					double x = e.getX() - tamanho/2;
-					double y = e.getY() - tamanho/2;
+					double x = e.getX() - tamanho / 2;
+					double y = e.getY() - tamanho / 2;
 					apagar.clearRect(x, y, tamanho, tamanho);
 				}
 			}
@@ -130,7 +123,7 @@ public class InterfaceController implements Initializable {
 
 		// fefesfs
 		canvas.setOnMouseReleased(e -> {
-			
+
 			if (lapisSelect) {
 				double tamanho = Double.parseDouble(tamanhoSelect.getText());
 				double x = e.getX() - tamanho / 2;
@@ -141,56 +134,49 @@ public class InterfaceController implements Initializable {
 			} else {
 				if (borrachaSelect) {
 					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
-					double x = e.getX() - tamanho/2;
-					double y = e.getY() - tamanho/2;
+					double x = e.getX() - tamanho / 2;
+					double y = e.getY() - tamanho / 2;
 					apagar.clearRect(x, y, tamanho, tamanho);
-					/*
-					apagar.lineTo(e.getX(), e.getY());
-					apagar.stroke();
-					apagar.closePath();*/
 				} else {
 					if (retanguloSelect) {
-						/* Q U A D R A D O
-						double tamanho = Double.parseDouble(tamanhoSelect.getText());
-						double x = e.getX() - tamanho / 2;
-						double y = e.getY() - tamanho / 2;
-						dRetangulo.setFill(escolheCor.getValue());
-						dRetangulo.setStroke(escolheCor.getValue());
-						dRetangulo.strokeRect(x, y, tamanho, tamanho);
-						dRetangulo.fillRect(x, y, tamanho, tamanho); */
-						
 						ret.setWidth(Math.abs((e.getX() - ret.getX())));
 						ret.setHeight(Math.abs((e.getSceneY() - ret.getY())));
-						
+
 						if (ret.getX() > e.getY()) {
 							ret.setX(e.getX());
 						}
-						
+
 						if (ret.getY() > e.getY()) {
 							ret.setY(e.getY());
 						}
-						
+
 						dRetangulo.strokeRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
 						dRetangulo.fillRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
 					} else {
 						if (linhaSelect) {
+
 							linha.setEndX(e.getX());
 							linha.setEndY(e.getY());
-							
-							dLinha.strokeLine(linha.getStartX(), linha.getStartY(), linha.getEndX(), linha.getEndY());
-							
+							dLinha.setStroke(escolheCor.getValue());
+							dLinha.moveTo(linha.getStartX(), linha.getStartY());
+							dLinha.lineTo(linha.getEndX(), linha.getEndY());
+							dLinha.stroke();
+
 						} else {
 							if (circSelect) {
-								circ.setRadius((Math.abs(e.getX() - circ.getCenterX()) + Math.abs(e.getY() - circ.getCenterY())) /2);
+								circ.setRadius((Math.abs(e.getX() - circ.getCenterX())
+										+ Math.abs(e.getY() - circ.getCenterY())) / 2);
 								if (circ.getCenterX() > e.getX()) {
 									circ.setCenterX(e.getX());
 								}
 								if (circ.getCenterY() > e.getY()) {
 									circ.setCenterY(e.getY());
 								}
-								
-								dCirculo.fillOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(), circ.getRadius());
-								dCirculo.strokeOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(), circ.getRadius());
+
+								dCirculo.fillOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
+										circ.getRadius());
+								dCirculo.strokeOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
+										circ.getRadius());
 							}
 						}
 					}
@@ -201,31 +187,90 @@ public class InterfaceController implements Initializable {
 	}
 
 	// Metodos para desenhar
-	
 
 	@FXML
 	public void lapisSelect(ActionEvent e) {
 		lapisSelect = true;
+		
+		
+		desfazerSelect = false;
+		refazerSelect = false;
+		preencheSelect = false;
+		retanguloSelect = false;
+		circSelect = false;
+		linhaSelect = false;
+		textSelect = false;
+		borrachaSelect = false;
 	}
 
 	@FXML
 	public void linhaSelect(ActionEvent e) {
 		linhaSelect = true;
+		
+		lapisSelect = false;
+		desfazerSelect = false;
+		refazerSelect = false;
+		preencheSelect = false;
+		retanguloSelect = false;
+		circSelect = false;
+		textSelect = false;
+		borrachaSelect = false;
 	}
 
 	@FXML
 	public void borrachaSelect(ActionEvent e) {
 		borrachaSelect = true;
+		
+		lapisSelect = false;
+		desfazerSelect = false;
+		refazerSelect = false;
+		preencheSelect = false;
+		retanguloSelect = false;
+		circSelect = false;
+		linhaSelect = false;
+		textSelect = false;
 	}
 
 	@FXML
 	public void retanguloSelect(ActionEvent e) {
 		retanguloSelect = true;
+		
+		lapisSelect = false;
+		desfazerSelect = false;
+		refazerSelect = false;
+		preencheSelect = false;
+		circSelect = false;
+		linhaSelect = false;
+		textSelect = false;
+		borrachaSelect = false;
 	}
 
 	@FXML
 	public void circsSelect(ActionEvent e) {
 		circSelect = true;
+		
+		lapisSelect = false;
+		desfazerSelect = false;
+		refazerSelect = false;
+		preencheSelect = false;
+		retanguloSelect = false;
+		linhaSelect = false;
+		textSelect = false;
+		borrachaSelect = false;
+	}
+
+	@FXML
+	public void textSelect(ActionEvent e) {
+		textSelect = true;
+		
+		lapisSelect = false;
+		desfazerSelect = false;
+		refazerSelect = false;
+		preencheSelect = false;
+		retanguloSelect = false;
+		circSelect = false;
+		linhaSelect = false;
+		borrachaSelect = false;
 	}
 
 	// Metodo para salvar
@@ -242,10 +287,6 @@ public class InterfaceController implements Initializable {
 	}
 
 	public void preencheSelect() {
-
-	}
-
-	public void textSelect() {
 
 	}
 
