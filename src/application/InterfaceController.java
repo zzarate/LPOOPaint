@@ -1,9 +1,10 @@
 package application;
 
-import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,7 +19,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -45,10 +45,7 @@ public class InterfaceController implements Initializable {
 	GraphicsContext apagar;
 	GraphicsContext dRetangulo;
 	GraphicsContext dCirculo;
-
 	GraphicsContext imgOpen;
-
-	ImageView visualizarImg;
 
 	@FXML
 	private ColorPicker escolheCor;
@@ -295,20 +292,20 @@ public class InterfaceController implements Initializable {
 	void salvar(ActionEvent e) {
 		FileChooser escolheArq = new FileChooser();
 		escolheArq.setTitle("Salvar Arquivo");
-		// Filtrar extensao do arquivo
-		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter("Arquivo JPG (*.jpg)", ("*.jpg"));
+
+		//Filtrar extensao do arquivo
+		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter ("Arquivo PNG (*.jpg)", ("*.jpg"));
 		escolheArq.getExtensionFilters().add(filtrarExt);
 
-		// Exibir janela para salvar
+		//Exibir janela para salvar
 		File imagem = escolheArq.showSaveDialog(new Stage());
 
-		// Salvar Imagem
 		if (imagem != null) {
 			try {
-				WritableImage escreverImag = new WritableImage(1280, 636);
+				WritableImage escreverImag = new WritableImage (1280, 636);
 				canvas.snapshot(null, escreverImag);
 				RenderedImage renderImage = SwingFXUtils.fromFXImage(escreverImag, null);
-				ImageIO.write(renderImage, "jpg", imagem);
+				ImageIO.write(renderImage, "png", imagem);
 			} catch (IOException ex) {
 				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
 				System.out.println("Falha ao salvar: " + ex);
@@ -318,23 +315,24 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	void abrirArq(ActionEvent e) {
+	void abrirArq (ActionEvent e) {
+		imgOpen = canvas.getGraphicsContext2D();
 		FileChooser escolherArq = new FileChooser();
 		escolherArq.setTitle("Abrir arquivo");
-
-		// Filtrar extensao do arquivo
-		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter("Arquivo JPG (*.jpg)", ("*.jpg"));
+		
+		//Filtra tipo de arquivo
+		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter ("Arquivo JPG (*.jpg)", ("*.jpg"));
 		escolherArq.getExtensionFilters().add(filtrarExt);
-
-		// Exibir janela
-		File arquivo = escolherArq.showOpenDialog(new Stage());
-
-		// Abrir a imagem
-		if (arquivo != null) {
+		
+		// Exibir tela de selecao
+		File imagem = escolherArq.showOpenDialog(new Stage());
+		
+		//Abrir imagem
+		if (imagem != null) {
 			try {
-				BufferedImage tempImg = ImageIO.read(arquivo);
-				Image imagem = SwingFXUtils.toFXImage(tempImg, null);
-				visualizarImg.setImage(imagem);
+				InputStream is = new FileInputStream (imagem);
+				Image img = new Image(is);
+				imgOpen.drawImage(img, 0, 0);
 			} catch (IOException ex) {
 				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
 				System.out.println("Erro: " + ex);
