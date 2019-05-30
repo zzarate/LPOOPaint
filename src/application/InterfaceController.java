@@ -98,6 +98,7 @@ public class InterfaceController implements Initializable {
 						if (linhaSelect) {
 							linha.setStartX(e.getX());
 							linha.setStartY(e.getY());
+							dLinha.setLineWidth(Double.parseDouble(tamanhoSelect.getText()));
 						} else {
 							if (circSelect) {
 								dCirculo.setFill(escolheCor.getValue());
@@ -168,7 +169,7 @@ public class InterfaceController implements Initializable {
 						dRetangulo.fillRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
 					} else {
 						if (linhaSelect) {
-
+							dLinha.setLineWidth(Double.parseDouble(tamanhoSelect.getText()));
 							linha.setEndX(e.getX());
 							linha.setEndY(e.getY());
 							dLinha.setStroke(escolheCor.getValue());
@@ -340,16 +341,19 @@ public class InterfaceController implements Initializable {
 		}
 
 	}
-
-	public void desfazerSelect() {
-
-	}
-
-	public void refazerSelect() {
+	
+	@FXML
+	void desfazerSelect() {
 
 	}
+	
+	@FXML
+	void refazerSelect() {
 
-	public void preencheSelect() {
+	}
+	
+	@FXML
+	void preencheSelect() {
 
 	}
 
