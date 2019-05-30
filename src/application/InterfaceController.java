@@ -1,17 +1,14 @@
 package application;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,6 +18,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -47,7 +45,10 @@ public class InterfaceController implements Initializable {
 	GraphicsContext apagar;
 	GraphicsContext dRetangulo;
 	GraphicsContext dCirculo;
+
 	GraphicsContext imgOpen;
+
+	ImageView visualizarImg;
 
 	@FXML
 	private ColorPicker escolheCor;
@@ -207,8 +208,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	void lapisSelect(ActionEvent e) {
 		lapisSelect = true;
-		
-		
+
 		desfazerSelect = false;
 		refazerSelect = false;
 		preencheSelect = false;
@@ -222,7 +222,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	void linhaSelect(ActionEvent e) {
 		linhaSelect = true;
-		
+
 		lapisSelect = false;
 		desfazerSelect = false;
 		refazerSelect = false;
@@ -236,7 +236,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	void borrachaSelect(ActionEvent e) {
 		borrachaSelect = true;
-		
+
 		lapisSelect = false;
 		desfazerSelect = false;
 		refazerSelect = false;
@@ -250,7 +250,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	void retanguloSelect(ActionEvent e) {
 		retanguloSelect = true;
-		
+
 		lapisSelect = false;
 		desfazerSelect = false;
 		refazerSelect = false;
@@ -264,7 +264,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	void circsSelect(ActionEvent e) {
 		circSelect = true;
-		
+
 		lapisSelect = false;
 		desfazerSelect = false;
 		refazerSelect = false;
@@ -278,7 +278,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	void textSelect(ActionEvent e) {
 		textSelect = true;
-		
+
 		lapisSelect = false;
 		desfazerSelect = false;
 		refazerSelect = false;
@@ -290,51 +290,57 @@ public class InterfaceController implements Initializable {
 	}
 
 	// Metodo para salvar
-	
+
 	@FXML
 	void salvar(ActionEvent e) {
 		FileChooser escolheArq = new FileChooser();
 		escolheArq.setTitle("Salvar Arquivo");
-		
-		//Filtrar extensao do arquivo
-		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter ("Arquivo PNG (*.png)", ("*.png"));
+		// Filtrar extensao do arquivo
+		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter("Arquivo JPG (*.jpg)", ("*.jpg"));
 		escolheArq.getExtensionFilters().add(filtrarExt);
-		
-		//Exibir janela para salvar
+
+		// Exibir janela para salvar
 		File imagem = escolheArq.showSaveDialog(new Stage());
-		
+
+		// Salvar Imagem
 		if (imagem != null) {
 			try {
-				WritableImage escreverImag = new WritableImage (1280, 636);
+				WritableImage escreverImag = new WritableImage(1280, 636);
 				canvas.snapshot(null, escreverImag);
 				RenderedImage renderImage = SwingFXUtils.fromFXImage(escreverImag, null);
-				ImageIO.write(renderImage, "png", imagem);
+				ImageIO.write(renderImage, "jpg", imagem);
 			} catch (IOException ex) {
 				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
 				System.out.println("Falha ao salvar: " + ex);
 			}
 		}
-		
+
 	}
-	
+
 	@FXML
-	void abrirArq (ActionEvent e) {
-		imgOpen = canvas.getGraphicsContext2D();
+	void abrirArq(ActionEvent e) {
 		FileChooser escolherArq = new FileChooser();
 		escolherArq.setTitle("Abrir arquivo");
-		
-		File imagem = escolherArq.showOpenDialog(new Stage());
-		if (imagem != null) {
+
+		// Filtrar extensao do arquivo
+		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter("Arquivo JPG (*.jpg)", ("*.jpg"));
+		escolherArq.getExtensionFilters().add(filtrarExt);
+
+		// Exibir janela
+		File arquivo = escolherArq.showOpenDialog(new Stage());
+
+		// Abrir a imagem
+		if (arquivo != null) {
 			try {
-				InputStream is = new FileInputStream (imagem);
-				Image img = new Image(is);
-				imgOpen.drawImage(img, 0, 0);
+				BufferedImage tempImg = ImageIO.read(arquivo);
+				Image imagem = SwingFXUtils.toFXImage(tempImg, null);
+				visualizarImg.setImage(imagem);
 			} catch (IOException ex) {
 				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
 				System.out.println("Erro: " + ex);
 			}
 		}
-		
+
 	}
 
 	public void desfazerSelect() {
