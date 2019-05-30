@@ -29,7 +29,6 @@
                       <Menu mnemonicParsing="false" text="Arquivo">
                         <items>
                           	  <MenuItem mnemonicParsing="false" onAction="#salvar" text="Salvar" />
-                              <MenuItem mnemonicParsing="false" text="Salvar como" />
                               <SeparatorMenuItem mnemonicParsing="false" />
                               <MenuItem mnemonicParsing="false" onAction="#abrirArq" text="Abrir arquivo" />
                               <MenuItem mnemonicParsing="false" text="Recentes" />
