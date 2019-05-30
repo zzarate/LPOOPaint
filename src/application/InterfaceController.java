@@ -1,7 +1,18 @@
 package application;
 
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,9 +20,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 public class InterfaceController implements Initializable {
@@ -32,6 +47,7 @@ public class InterfaceController implements Initializable {
 	GraphicsContext apagar;
 	GraphicsContext dRetangulo;
 	GraphicsContext dCirculo;
+	GraphicsContext imgOpen;
 
 	@FXML
 	private ColorPicker escolheCor;
@@ -189,7 +205,7 @@ public class InterfaceController implements Initializable {
 	// Metodos para desenhar
 
 	@FXML
-	public void lapisSelect(ActionEvent e) {
+	void lapisSelect(ActionEvent e) {
 		lapisSelect = true;
 		
 		
@@ -204,7 +220,7 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	public void linhaSelect(ActionEvent e) {
+	void linhaSelect(ActionEvent e) {
 		linhaSelect = true;
 		
 		lapisSelect = false;
@@ -218,7 +234,7 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	public void borrachaSelect(ActionEvent e) {
+	void borrachaSelect(ActionEvent e) {
 		borrachaSelect = true;
 		
 		lapisSelect = false;
@@ -232,7 +248,7 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	public void retanguloSelect(ActionEvent e) {
+	void retanguloSelect(ActionEvent e) {
 		retanguloSelect = true;
 		
 		lapisSelect = false;
@@ -246,7 +262,7 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	public void circsSelect(ActionEvent e) {
+	void circsSelect(ActionEvent e) {
 		circSelect = true;
 		
 		lapisSelect = false;
@@ -260,7 +276,7 @@ public class InterfaceController implements Initializable {
 	}
 
 	@FXML
-	public void textSelect(ActionEvent e) {
+	void textSelect(ActionEvent e) {
 		textSelect = true;
 		
 		lapisSelect = false;
@@ -274,8 +290,51 @@ public class InterfaceController implements Initializable {
 	}
 
 	// Metodo para salvar
-	public void salvar() {
-
+	
+	@FXML
+	void salvar(ActionEvent e) {
+		FileChooser escolheArq = new FileChooser();
+		escolheArq.setTitle("Salvar Arquivo");
+		
+		//Filtrar extensao do arquivo
+		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter ("Arquivo PNG (*.png)", ("*.png"));
+		escolheArq.getExtensionFilters().add(filtrarExt);
+		
+		//Exibir janela para salvar
+		File imagem = escolheArq.showSaveDialog(new Stage());
+		
+		if (imagem != null) {
+			try {
+				WritableImage escreverImag = new WritableImage (1280, 636);
+				canvas.snapshot(null, escreverImag);
+				RenderedImage renderImage = SwingFXUtils.fromFXImage(escreverImag, null);
+				ImageIO.write(renderImage, "png", imagem);
+			} catch (IOException ex) {
+				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
+				System.out.println("Falha ao salvar: " + ex);
+			}
+		}
+		
+	}
+	
+	@FXML
+	void abrirArq (ActionEvent e) {
+		imgOpen = canvas.getGraphicsContext2D();
+		FileChooser escolherArq = new FileChooser();
+		escolherArq.setTitle("Abrir arquivo");
+		
+		File imagem = escolherArq.showOpenDialog(new Stage());
+		if (imagem != null) {
+			try {
+				InputStream is = new FileInputStream (imagem);
+				Image img = new Image(is);
+				imgOpen.drawImage(img, 0, 0);
+			} catch (IOException ex) {
+				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
+				System.out.println("Erro: " + ex);
+			}
+		}
+		
 	}
 
 	public void desfazerSelect() {
