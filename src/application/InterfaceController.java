@@ -3,9 +3,13 @@ package application;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,12 +21,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -45,34 +55,46 @@ public class InterfaceController implements Initializable {
 	GraphicsContext apagar;
 	GraphicsContext dRetangulo;
 	GraphicsContext dCirculo;
+	GraphicsContext escText;
 	GraphicsContext imgOpen;
+	
+	String nomeArquivo;
 
 	@FXML
 	private ColorPicker escolheCor;
 
 	@FXML
 	private TextField tamanhoSelect;
+	
+	@FXML
+	private TextField tamanhoTexto;
 
 	@FXML
 	private TextField tamanhoBorracha;
 
 	@FXML
 	private Canvas canvas;
+	
+	@FXML
+	private TextFlow textHist;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		dLapis = canvas.getGraphicsContext2D();
-		apagar = canvas.getGraphicsContext2D();
 		dRetangulo = canvas.getGraphicsContext2D();
 		dCirculo = canvas.getGraphicsContext2D();
 		dLinha = canvas.getGraphicsContext2D();
+		apagar = canvas.getGraphicsContext2D();
+		
+		escText = canvas.getGraphicsContext2D();
 
 		Line linha = new Line();
 		Rectangle ret = new Rectangle();
 		Circle circ = new Circle();
+		TextArea texto = new TextArea();
 
-		// efefes
+		// Desenhar
 		canvas.setOnMousePressed(e -> {
 
 			if (lapisSelect) {
@@ -107,6 +129,13 @@ public class InterfaceController implements Initializable {
 								circ.setCenterY(e.getY());
 							} else {
 								if (textSelect) {
+									texto.setPrefRowCount(1);
+									escText.setFont(Font.getDefault());
+									escText.setLineWidth(Double.parseDouble(tamanhoTexto.getText()));
+									escText.setFill(escolheCor.getValue());
+									escText.setStroke(escolheCor.getValue());
+									escText.fillText(texto.getText(), e.getX(), e.getY());
+									escText.strokeText(texto.getText(), e.getX(), e.getY());
 								}
 							}
 						}
@@ -187,7 +216,6 @@ public class InterfaceController implements Initializable {
 								if (circ.getCenterY() > e.getY()) {
 									circ.setCenterY(e.getY());
 								}
-
 								dCirculo.fillOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
 										circ.getRadius());
 								dCirculo.strokeOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
@@ -198,7 +226,6 @@ public class InterfaceController implements Initializable {
 				}
 			}
 		});
-
 	}
 
 	// Metodos para desenhar
@@ -295,7 +322,7 @@ public class InterfaceController implements Initializable {
 		escolheArq.setTitle("Salvar Arquivo");
 
 		//Filtrar extensao do arquivo
-		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter ("Arquivo PNG (*.jpg)", ("*.jpg"));
+		FileChooser.ExtensionFilter filtrarExt = new FileChooser.ExtensionFilter ("Arquivo JPG (*.jpg)", ("*.jpg"));
 		escolheArq.getExtensionFilters().add(filtrarExt);
 
 		//Exibir janela para salvar
@@ -331,6 +358,8 @@ public class InterfaceController implements Initializable {
 		//Abrir imagem
 		if (imagem != null) {
 			try {
+				HistoricoArquivos nomeImg = new HistoricoArquivos ();
+				nomeImg.salvarNome(imagem.toString());
 				InputStream is = new FileInputStream (imagem);
 				Image img = new Image(is);
 				imgOpen.drawImage(img, 0, 0);
@@ -340,6 +369,17 @@ public class InterfaceController implements Initializable {
 			}
 		}
 
+	}
+	
+	@FXML
+	void recentes (ActionEvent e) {
+		HistoricoArquivos exibe = new HistoricoArquivos ();
+		Text texto = new Text (exibe.exibeMenu());
+		texto.setFont(new Font(11));
+		texto.setFill(Color.BLACK);
+		textHist.setTextAlignment(TextAlignment.LEFT);
+		textHist.setLineSpacing(3);
+		textHist.getChildren().add(texto);		
 	}
 	
 	@FXML
