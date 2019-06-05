@@ -6,10 +6,6 @@ interface Arquivos {
 	
 	void salvarTexto(String nomeImg) throws IOException;
 	
-	void abrirImagem();
-	
-	void salvarImagem();
-	
 	boolean verificaExiste ();
 
 }

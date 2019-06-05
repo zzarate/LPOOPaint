@@ -8,14 +8,6 @@ abstract class CriarVerificarArquivos implements Arquivos {
 	
 	public abstract void salvarTexto(String nomeImg) throws IOException;
 	
-	public void abrirImagem() {
-		
-	}
-	
-	public void salvarImagem() {
-		
-	}
-	
 	public boolean verificaExiste () {
 		localArq = System.getProperty("user.dir") + "\\Historico arquivos.txt";
 		File tempAqr = new File (localArq);
