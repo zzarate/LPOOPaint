@@ -3,13 +3,9 @@ package application;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -50,14 +47,7 @@ public class InterfaceController implements Initializable {
 	boolean textSelect = false;
 	boolean borrachaSelect = false;
 
-	GraphicsContext dLapis;
-	GraphicsContext dLinha;
-	GraphicsContext apagar;
-	GraphicsContext dRetangulo;
-	GraphicsContext dCirculo;
-	GraphicsContext escText;
-	GraphicsContext imgOpen;
-	
+	GraphicsContext gc;
 	String nomeArquivo;
 
 	@FXML
@@ -77,17 +67,14 @@ public class InterfaceController implements Initializable {
 	
 	@FXML
 	private TextFlow textHist;
+	
+	@FXML
+	private Pane paneCanvas;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		dLapis = canvas.getGraphicsContext2D();
-		dRetangulo = canvas.getGraphicsContext2D();
-		dCirculo = canvas.getGraphicsContext2D();
-		dLinha = canvas.getGraphicsContext2D();
-		apagar = canvas.getGraphicsContext2D();
-		
-		escText = canvas.getGraphicsContext2D();
+		gc = canvas.getGraphicsContext2D();
 
 		Line linha = new Line();
 		Rectangle ret = new Rectangle();
@@ -101,41 +88,39 @@ public class InterfaceController implements Initializable {
 				double tamanho = Double.parseDouble(tamanhoSelect.getText());
 				double x = e.getX() - tamanho / 2;
 				double y = e.getY() - tamanho / 2;
-				dLapis.setFill(escolheCor.getValue());
-				dLapis.setStroke(escolheCor.getValue());
-				dLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
+				gc.setFill(escolheCor.getValue());
+				gc.setStroke(escolheCor.getValue());
+				gc.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			} else {
 				if (borrachaSelect) {
 					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
 					double x = e.getX() - tamanho / 2;
 					double y = e.getY() - tamanho / 2;
-					apagar.clearRect(x, y, tamanho, tamanho);
+					gc.clearRect(x, y, tamanho, tamanho);
 				} else {
 					if (retanguloSelect) {
-						dRetangulo.setStroke(escolheCor.getValue());
-						dRetangulo.setFill(escolheCor.getValue());
+						gc.setStroke(escolheCor.getValue());
+						gc.setFill(escolheCor.getValue());
 						ret.setX(e.getX());
 						ret.setY(e.getY());
 					} else {
 						if (linhaSelect) {
 							linha.setStartX(e.getX());
 							linha.setStartY(e.getY());
-							dLinha.setLineWidth(Double.parseDouble(tamanhoSelect.getText()));
+							gc.setLineWidth(Double.parseDouble(tamanhoSelect.getText()));
 						} else {
 							if (circSelect) {
-								dCirculo.setFill(escolheCor.getValue());
-								dCirculo.setStroke(escolheCor.getValue());
+								gc.setFill(escolheCor.getValue());
+								gc.setStroke(escolheCor.getValue());
 								circ.setCenterX(e.getX());
 								circ.setCenterY(e.getY());
 							} else {
 								if (textSelect) {
-									texto.setPrefRowCount(1);
-									escText.setFont(Font.getDefault());
-									escText.setLineWidth(Double.parseDouble(tamanhoTexto.getText()));
-									escText.setFill(escolheCor.getValue());
-									escText.setStroke(escolheCor.getValue());
-									escText.fillText(texto.getText(), e.getX(), e.getY());
-									escText.strokeText(texto.getText(), e.getX(), e.getY());
+									gc.setFont(Font.getDefault());
+									gc.setFill(escolheCor.getValue());
+									gc.setStroke(escolheCor.getValue());
+									gc.fillText(texto.getText(), e.getX(), e.getY());
+									gc.strokeText(texto.getText(), e.getX(), e.getY());
 								}
 							}
 						}
@@ -151,15 +136,15 @@ public class InterfaceController implements Initializable {
 				double tamanho = Double.parseDouble(tamanhoSelect.getText());
 				double x = e.getX() - tamanho / 2;
 				double y = e.getY() - tamanho / 2;
-				dLapis.setFill(escolheCor.getValue());
-				dLapis.setStroke(escolheCor.getValue());
-				dLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
+				gc.setFill(escolheCor.getValue());
+				gc.setStroke(escolheCor.getValue());
+				gc.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			} else {
 				if (borrachaSelect) {
 					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
 					double x = e.getX() - tamanho / 2;
 					double y = e.getY() - tamanho / 2;
-					apagar.clearRect(x, y, tamanho, tamanho);
+					gc.clearRect(x, y, tamanho, tamanho);
 				}
 			}
 
@@ -172,15 +157,15 @@ public class InterfaceController implements Initializable {
 				double tamanho = Double.parseDouble(tamanhoSelect.getText());
 				double x = e.getX() - tamanho / 2;
 				double y = e.getY() - tamanho / 2;
-				dLapis.setFill(escolheCor.getValue());
-				dLapis.setStroke(escolheCor.getValue());
-				dLapis.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
+				gc.setFill(escolheCor.getValue());
+				gc.setStroke(escolheCor.getValue());
+				gc.fillRoundRect(x, y, tamanho, tamanho, tamanho, tamanho);
 			} else {
 				if (borrachaSelect) {
 					double tamanho = Double.parseDouble(tamanhoBorracha.getText());
 					double x = e.getX() - tamanho / 2;
 					double y = e.getY() - tamanho / 2;
-					apagar.clearRect(x, y, tamanho, tamanho);
+					gc.clearRect(x, y, tamanho, tamanho);
 				} else {
 					if (retanguloSelect) {
 						ret.setWidth(Math.abs((e.getX() - ret.getX())));
@@ -194,17 +179,17 @@ public class InterfaceController implements Initializable {
 							ret.setY(e.getY());
 						}
 
-						dRetangulo.strokeRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
-						dRetangulo.fillRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
+						gc.strokeRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
+						gc.fillRect(ret.getX(), ret.getY(), ret.getWidth(), ret.getHeight());
 					} else {
 						if (linhaSelect) {
-							dLinha.setLineWidth(Double.parseDouble(tamanhoSelect.getText()));
+							gc.setLineWidth(Double.parseDouble(tamanhoSelect.getText()));
 							linha.setEndX(e.getX());
 							linha.setEndY(e.getY());
-							dLinha.setStroke(escolheCor.getValue());
-							dLinha.moveTo(linha.getStartX(), linha.getStartY());
-							dLinha.lineTo(linha.getEndX(), linha.getEndY());
-							dLinha.stroke();
+							gc.setStroke(escolheCor.getValue());
+							gc.moveTo(linha.getStartX(), linha.getStartY());
+							gc.lineTo(linha.getEndX(), linha.getEndY());
+							gc.stroke();
 
 						} else {
 							if (circSelect) {
@@ -216,9 +201,9 @@ public class InterfaceController implements Initializable {
 								if (circ.getCenterY() > e.getY()) {
 									circ.setCenterY(e.getY());
 								}
-								dCirculo.fillOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
+								gc.fillOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
 										circ.getRadius());
-								dCirculo.strokeOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
+								gc.strokeOval(circ.getCenterX(), circ.getCenterY(), circ.getRadius(),
 										circ.getRadius());
 							}
 						}
@@ -344,7 +329,6 @@ public class InterfaceController implements Initializable {
 
 	@FXML
 	void abrirArq (ActionEvent e) {
-		imgOpen = canvas.getGraphicsContext2D();
 		FileChooser escolherArq = new FileChooser();
 		escolherArq.setTitle("Abrir arquivo");
 		
@@ -359,10 +343,10 @@ public class InterfaceController implements Initializable {
 		if (imagem != null) {
 			try {
 				HistoricoArquivos nomeImg = new HistoricoArquivos ();
-				nomeImg.salvarNome(imagem.toString());
+				nomeImg.salvarTexto(imagem.toString());
 				InputStream is = new FileInputStream (imagem);
 				Image img = new Image(is);
-				imgOpen.drawImage(img, 0, 0);
+				gc.drawImage(img, 0, 0);
 			} catch (IOException ex) {
 				Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
 				System.out.println("Erro: " + ex);
@@ -379,6 +363,7 @@ public class InterfaceController implements Initializable {
 		texto.setFill(Color.BLACK);
 		textHist.setTextAlignment(TextAlignment.LEFT);
 		textHist.setLineSpacing(3);
+		textHist.getChildren().clear();
 		textHist.getChildren().add(texto);		
 	}
 	
