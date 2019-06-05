@@ -37,7 +37,7 @@
                                  <items>
                                     <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
                                        <content>
-                                          <TextFlow fx:id="textHist" prefHeight="200.0" prefWidth="200.0" />
+                                          <TextFlow fx:id="textHist" prefHeight="350.0" prefWidth="200.0" />
                                        </content>
                                     </CustomMenuItem>
                                  </items></Menu>

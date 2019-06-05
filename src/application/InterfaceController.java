@@ -46,10 +46,11 @@ public class InterfaceController implements Initializable {
 	boolean linhaSelect = false;
 	boolean textSelect = false;
 	boolean borrachaSelect = false;
-
+	
+	// Variavel para desenho
 	GraphicsContext gc;
-	String nomeArquivo;
 
+	//Variaveis do FXML
 	@FXML
 	private ColorPicker escolheCor;
 
@@ -71,6 +72,7 @@ public class InterfaceController implements Initializable {
 	@FXML
 	private Pane paneCanvas;
 
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
@@ -80,8 +82,10 @@ public class InterfaceController implements Initializable {
 		Rectangle ret = new Rectangle();
 		Circle circ = new Circle();
 		TextArea texto = new TextArea();
+		
+		// Metodos para desenho
 
-		// Desenhar
+		// Quando o clique do mouse for pressionado
 		canvas.setOnMousePressed(e -> {
 
 			if (lapisSelect) {
@@ -129,7 +133,7 @@ public class InterfaceController implements Initializable {
 			}
 		});
 
-		// efefefw
+		// Quando o clique do mouse for arrastado
 		canvas.setOnMouseDragged(e -> {
 
 			if (lapisSelect) {
@@ -150,7 +154,7 @@ public class InterfaceController implements Initializable {
 
 		});
 
-		// fefesfs
+		// Quando o clique do mouse for solto
 		canvas.setOnMouseReleased(e -> {
 
 			if (lapisSelect) {
@@ -213,7 +217,7 @@ public class InterfaceController implements Initializable {
 		});
 	}
 
-	// Metodos para desenhar
+	// Metodos para selecao de funcao
 
 	@FXML
 	void lapisSelect(ActionEvent e) {
@@ -312,9 +316,12 @@ public class InterfaceController implements Initializable {
 
 		//Exibir janela para salvar
 		File imagem = escolheArq.showSaveDialog(new Stage());
-
+		
+		//Salva a imagem
 		if (imagem != null) {
 			try {
+				HistoricoArquivos nomeImg = new HistoricoArquivos ();
+				nomeImg.salvarTexto(imagem.toString());
 				WritableImage escreverImag = new WritableImage (1280, 636);
 				canvas.snapshot(null, escreverImag);
 				RenderedImage renderImage = SwingFXUtils.fromFXImage(escreverImag, null);
@@ -355,10 +362,11 @@ public class InterfaceController implements Initializable {
 
 	}
 	
+	//Exibe o historico de arquivos recentemente abertos no menu
 	@FXML
 	void recentes (ActionEvent e) {
 		HistoricoArquivos exibe = new HistoricoArquivos ();
-		Text texto = new Text (exibe.exibeMenu());
+		Text texto = new Text (exibe.leArquivo());
 		texto.setFont(new Font(11));
 		texto.setFill(Color.BLACK);
 		textHist.setTextAlignment(TextAlignment.LEFT);

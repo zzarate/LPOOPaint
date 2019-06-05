@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 public class HistoricoArquivos extends CriarVerificarArquivos {
 
+	//Salva o nome dos arquivos abertos
 	@Override
 	public void salvarTexto(String nomeImg) throws IOException {
 		String nomeArq = "Historico arquivos.txt";
@@ -47,7 +48,8 @@ public class HistoricoArquivos extends CriarVerificarArquivos {
 		}
 	}
 	
-	String exibeMenu () {
+	//Le o arquivo onde é armazenado o historico dos arquivos abertos e criados
+	String leArquivo () {
 		StringBuilder contentBuilder = new StringBuilder ();
 		
 		if (super.verificaExiste()) {
