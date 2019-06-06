@@ -7,10 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- *  @author Joao Victor Zarate e Julio Huang
- *  github.com/zzarate/LPOOPaint
- */
 
 public class Paint extends Application {
 

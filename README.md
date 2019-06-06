@@ -1,1 +1,1 @@
-# LPOOPaint
+# Paint
