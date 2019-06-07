@@ -14,6 +14,6 @@
 |Salvar Imagem                                              |    100%    |
 |Borracha (apagar partes da imagem)                         |    100%    |
 |Escrever texto                                             |    0%      |
-|Arquivos recentemente abertos (salvar em arquivo externo)  |    25%     |
+|Arquivos recentemente abertos (salvar em arquivo externo)  |    50%     |
 |Desfazer (apenas a última alteração)                       |    0%      |
 |Refazer (apenas a última alteração)                        |    0%      |    
