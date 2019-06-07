@@ -367,7 +367,7 @@ public class InterfaceController implements Initializable {
 	void recentes (ActionEvent e) {
 		HistoricoArquivos exibe = new HistoricoArquivos ();
 		Text texto = new Text (exibe.leArquivo());
-		texto.setFont(new Font(11));
+		texto.setFont(new Font(10));
 		texto.setFill(Color.BLACK);
 		textHist.setTextAlignment(TextAlignment.LEFT);
 		textHist.setLineSpacing(3);
