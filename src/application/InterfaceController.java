@@ -36,16 +36,14 @@ import javafx.event.ActionEvent;
 
 public class InterfaceController implements Initializable {
 
-	// Variaveis de seleção de função - lapis selecionado por padrão
-	boolean lapisSelect = false;
-	boolean desfazerSelect = false;
-	boolean refazerSelect = false;
-	boolean preencheSelect = false;
-	boolean retanguloSelect = false;
-	boolean circSelect = false;
-	boolean linhaSelect = false;
-	boolean textSelect = false;
-	boolean borrachaSelect = false;
+	// Variaveis de seleção de função
+	private boolean lapisSelect = false;
+	private boolean retanguloSelect = false;
+	private boolean circSelect = false;
+	private boolean linhaSelect = false;
+	private boolean textSelect = false;
+	private boolean borrachaSelect = false;
+	private boolean preencheSelect = false;
 	
 	// Variavel para desenho
 	GraphicsContext gc;
@@ -128,6 +126,10 @@ public class InterfaceController implements Initializable {
 									gc.setStroke(escolheCor.getValue());
 									gc.fillText(texto.getText(), e.getX(), e.getY());
 									gc.strokeText(texto.getText(), e.getX(), e.getY());
+								} else {
+									if (preencheSelect) {
+										
+									}
 								}
 							}
 						}
@@ -226,8 +228,6 @@ public class InterfaceController implements Initializable {
 	void lapisSelect(ActionEvent e) {
 		lapisSelect = true;
 
-		desfazerSelect = false;
-		refazerSelect = false;
 		preencheSelect = false;
 		retanguloSelect = false;
 		circSelect = false;
@@ -241,8 +241,6 @@ public class InterfaceController implements Initializable {
 		linhaSelect = true;
 
 		lapisSelect = false;
-		desfazerSelect = false;
-		refazerSelect = false;
 		preencheSelect = false;
 		retanguloSelect = false;
 		circSelect = false;
@@ -255,8 +253,6 @@ public class InterfaceController implements Initializable {
 		borrachaSelect = true;
 
 		lapisSelect = false;
-		desfazerSelect = false;
-		refazerSelect = false;
 		preencheSelect = false;
 		retanguloSelect = false;
 		circSelect = false;
@@ -269,8 +265,6 @@ public class InterfaceController implements Initializable {
 		retanguloSelect = true;
 
 		lapisSelect = false;
-		desfazerSelect = false;
-		refazerSelect = false;
 		preencheSelect = false;
 		circSelect = false;
 		linhaSelect = false;
@@ -283,8 +277,6 @@ public class InterfaceController implements Initializable {
 		circSelect = true;
 
 		lapisSelect = false;
-		desfazerSelect = false;
-		refazerSelect = false;
 		preencheSelect = false;
 		retanguloSelect = false;
 		linhaSelect = false;
@@ -297,12 +289,22 @@ public class InterfaceController implements Initializable {
 		textSelect = true;
 
 		lapisSelect = false;
-		desfazerSelect = false;
-		refazerSelect = false;
 		preencheSelect = false;
 		retanguloSelect = false;
 		circSelect = false;
 		linhaSelect = false;
+		borrachaSelect = false;
+	}
+	
+	@FXML
+	void preencheSelect(ActionEvent e) {
+		preencheSelect = true;
+
+		lapisSelect = false;
+		retanguloSelect = false;
+		circSelect = false;
+		linhaSelect = false;
+		textSelect = false;
 		borrachaSelect = false;
 	}
 
@@ -388,10 +390,6 @@ public class InterfaceController implements Initializable {
 
 	}
 	
-	@FXML
-	void preencheSelect() {
-
-	}
 
 	// Metodo para sair da aplicação
 	public void exit() {
