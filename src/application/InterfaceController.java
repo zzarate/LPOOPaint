@@ -71,10 +71,13 @@ public class InterfaceController implements Initializable {
 	
 	@FXML
 	private Pane paneCanvas;
+	
 
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		escolheCor.setValue(Color.BLACK);
 
 		gc = canvas.getGraphicsContext2D();
 
