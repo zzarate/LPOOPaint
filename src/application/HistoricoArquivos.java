@@ -4,12 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.stream.Stream;
 
 public class HistoricoArquivos extends CriarVerificarArquivos {
 
@@ -46,21 +42,5 @@ public class HistoricoArquivos extends CriarVerificarArquivos {
 				e1.printStackTrace();
 			}
 		}
-	}
-	
-	//Le o arquivo onde é armazenado o historico dos arquivos abertos e criados
-	String leArquivo () {
-		StringBuilder contentBuilder = new StringBuilder ();
-		
-		if (super.verificaExiste()) {
-			try (Stream <String> stream = Files.lines( Paths.get(localArq), StandardCharsets.UTF_8)){
-				stream.forEach(s -> contentBuilder.append(s).append ("\n"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return contentBuilder.toString();
-		}
-		return null;
 	}
 }
